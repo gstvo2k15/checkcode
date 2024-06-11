@@ -6,4 +6,8 @@ docker-compose up -d
 
 docker-compose logs -f --tail=5
 
+apt-get install -y lynx jq
+
+lynx -dump reports/bandit_report.html
+
 jq -r '.[] | "File: \(.file)\nLine: \(.line)\nLevel: \(.level)\nCode: \(.code)\nMessage: \(.message)\n"' reports/shellcheck_report.json
