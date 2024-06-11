@@ -1,1 +1,9 @@
 # Basic check-code deployment with docker-compose
+
+## Example output usage
+
+docker-compose up -d
+
+docker-compose logs -f --tail=5
+
+jq -r '.[] | "File: \(.file)\nLine: \(.line)\nLevel: \(.level)\nCode: \(.code)\nMessage: \(.message)\n"' reports/shellcheck_report.json
