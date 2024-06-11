@@ -1,0 +1,9 @@
+FROM python:3.9-slim
+
+RUN pip install flake8 flake8-html
+
+WORKDIR /app
+
+COPY . .
+
+CMD ["flake8", ".", "--format=html", "--htmldir=flake8_report"]
