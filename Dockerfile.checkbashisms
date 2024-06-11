@@ -1,9 +1,0 @@
-FROM debian:latest
-
-RUN apt-get update && apt-get install -y devscripts
-
-WORKDIR /app
-
-COPY . .
-
-CMD ["sh", "-c", "checkbashisms *.sh > checkbashisms_report.txt && cat checkbashisms_report.txt | ansi2html > checkbashisms_report.html"]

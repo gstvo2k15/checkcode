@@ -1,7 +1,0 @@
-FROM mvdan/shfmt:latest
-
-WORKDIR /app
-
-COPY . .
-
-CMD ["shfmt", "-d", ".", "-f", "html", "-o", "shfmt_report.html"]

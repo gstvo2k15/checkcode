@@ -1,9 +1,0 @@
-FROM python:3.9-slim
-
-RUN pip install pylint pylint-json2html
-
-WORKDIR /app
-
-COPY . .
-
-CMD ["sh", "-c", "pylint --output-format=json script1.py > pylint_report.json && pylint-json2html -o pylint_report.html pylint_report.json"]

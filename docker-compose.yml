@@ -7,23 +7,6 @@ services:
       dockerfile: Dockerfile.bandit
     volumes:
       - ./reports:/app/reports
-    command: ["sh", "-c", "bandit -r . -f html -o reports/bandit_report.html"]
-
-  pylint:
-    build:
-      context: .
-      dockerfile: Dockerfile.pylint
-    volumes:
-      - ./reports:/app/reports
-    command: ["sh", "-c", "pylint --output-format=json script1.py > reports/pylint_report.json && pylint-json2html -o reports/pylint_report.html reports/pylint_report.json"]
-
-  flake8:
-    build:
-      context: .
-      dockerfile: Dockerfile.flake8
-    volumes:
-      - ./reports:/app/reports
-    command: ["sh", "-c", "flake8 . --format=html --htmldir=reports/flake8_report"]
 
   shellcheck:
     build:
@@ -31,27 +14,12 @@ services:
       dockerfile: Dockerfile.shellcheck
     volumes:
       - ./reports:/app/reports
-    command: ["sh", "-c", "shellcheck *.sh -f json | tee reports/shellcheck_report.json && cat reports/shellcheck_report.json | /usr/local/bin/json2html -o reports/shellcheck_report.html"]
-
-  shfmt:
-    build:
-      context: .
-      dockerfile: Dockerfile.shfmt
-    volumes:
-      - ./reports:/app/reports
-    command: ["shfmt", "-d", ".", "-f", "html", "-o", "reports/shfmt_report.html"]
-
-  checkbashisms:
-    build:
-      context: .
-      dockerfile: Dockerfile.checkbashisms
-    volumes:
-      - ./reports:/app/reports
-    command: ["sh", "-c", "checkbashisms *.sh > reports/checkbashisms_report.txt && cat reports/checkbashisms_report.txt | ansi2html > reports/checkbashisms_report.html"]
 
   combine-reports:
     image: python:3.9-slim
     volumes:
       - ./reports:/app/reports
+      - .:/app
     working_dir: /app
     command: ["python", "combine_reports.py"]
+

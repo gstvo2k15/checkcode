@@ -1,9 +1,6 @@
 FROM python:3.9-slim
-
 RUN pip install bandit
-
 WORKDIR /app
-
 COPY . .
+CMD ["bandit", "-r", ".", "-f", "html", "-o", "reports/bandit_report.html"]
 
-CMD ["bandit", "-r", ".", "-f", "html", "-o", "bandit_report.html"]

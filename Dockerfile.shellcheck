@@ -1,9 +1,5 @@
 FROM koalaman/shellcheck-alpine:latest
-
-RUN apk add --no-cache bash
-
 WORKDIR /app
-
 COPY . .
+CMD ["sh", "-c", "shellcheck *.sh -f json > reports/shellcheck_report.json"]
 
-CMD ["sh", "-c", "shellcheck *.sh -f json | tee shellcheck_report.json && cat shellcheck_report.json | /usr/local/bin/json2html -o shellcheck_report.html"]
