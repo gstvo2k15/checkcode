@@ -65,14 +65,14 @@ LOGCONTENT="$(head -n 2000 $LOGFILE)"
 THISLOG=""
 SUMMARY=""
 
-echo "Listado de variables antes del backup"
+echo "Variable list before start backup."
 
 
 
 if [ "$(date +%d)" = "01" ]; then
   # Es el primer día del mes,generamos backup mensual
 monthlybackup () {
-  echo "Nombre del backup: $BCKNAME-$NODE_NAME_$NODE-01$MES.tar.gz de la ruta $SOURCE_PATH hacia $REMOTEDESTINY del NFS $NFSPATHWPR para $NODE_NAME en $DATACENTER del entorno $ENVIRONMENT"
+  echo "Backup name: $BCKNAME-$NODE_NAME_$NODE-01$MES.tar.gz source origin $SOURCE_PATH to destiny $REMOTEDESTINY of NFS $NFSPATHWPR for $NODE_NAME in $DATACENTER in environment $ENVIRONMENT"
   local FSTARTTIME="$(date '+%H:%M')"
   local FSTART=$(date +%s)
   printf "$THISLOGHEAD|\n\n\
@@ -99,11 +99,11 @@ $THISLOG\n$LOGCONTENT" > $LOGFILE
     mount $MOUNTDCR $NFSPATHDCR
     rsync -avhz "$LOCALDESTINY/$BCKNAME-$NODE_NAME_$NODE-01$MES.tar.gz" --stats $REPLICAMONTHLY
     umount -f $NFSPATHDCR
-    echo "Nombre del fichero mensual de backup en /localbck: $LOCALDESTINY/$BCKNAME-$NODE_NAME_$NODE-01$MES.tar.gz"
-    echo "Nombre del fichero mensual de backup copiado al NFS: $REMOTEDESTINY/$BCKNAME-$NODE_NAME_$NODE-01$MES.tar.gz"
+    echo "Backup name of ing_scripts copied to /localbck: $LOCALDESTINY/$BCKNAME-$NODE_NAME_$NODE-01$MES.tar.gz"
+    echo "Backup name of ing_scripts copied to NFS: $REMOTEDESTINY/$BCKNAME-$NODE_NAME_$NODE-01$MES.tar.gz"
 else
 remotebackup () {
-  echo "Nombre del backup: $BCKNAME-$NODE_NAME_$NODE.tar.gz de la ruta $SOURCE_PATH hacia $REMOTEDESTINY del NFS $NFSPATHWPR para $NODE_NAME en $DATACENTER del entorno $ENVIRONMENT"
+  echo "Backup name: $BCKNAME-$NODE_NAME_$NODE.tar.gz de la ruta $SOURCE_PATH hacia $REMOTEDESTINY of NFS $NFSPATHWPR for $NODE_NAME in $DATACENTER in environment $ENVIRONMENT"
   local FSTARTTIME="$(date '+%H:%M')"
   local FSTART=$(date +%s)
   printf "$THISLOGHEAD|\n\n\
@@ -133,8 +133,8 @@ remotebackup () {
     mount $MOUNTDCR $NFSPATHDCR
     rsync -avhz $LOCALDESTINY/$BCKNAME-$NODE_NAME_$NODE.tar.gz --stats $REPLICADESTINY
     umount -f $NFSPATHDCR
-    echo "Nombre del fichero de backup en /localbck:  $LOCALDESTINY/$BCKNAME-$NODE_NAME_$NODE.tar.gz"
-    echo "Nombre del fichero de backup copiado al NFS: $REMOTEDESTINY/$BCKNAME-$NODE_NAME_$NODE.tar.gz"
+    echo "Backup name of ing_scripts copied to /localbck:  $LOCALDESTINY/$BCKNAME-$NODE_NAME_$NODE.tar.gz"
+    echo "Backup name of ing_scripts copied to NFS: $REMOTEDESTINY/$BCKNAME-$NODE_NAME_$NODE.tar.gz"
 fi
 
 
@@ -168,8 +168,8 @@ $THISLOG\n$LOGCONTENT" > $LOGFILE
     mount $MOUNTDCR $NFSPATHDCR
     rsync -avhz $LOCALDESTINY/ingscripts_$NODE-$FECHA.tar.gz --stats $REPLICADESTINY
     umount -f $NFSPATHDCR
-    echo "Nombre del fichero de backup de ing_scripts en /localbck:  $LOCALDESTINY/ingscripts_$NODE-$FECHA.tar.gz"
-    echo "Nombre del fichero de backup de ing_scripts copiado al NFS: $REMOTEDESTINY/ingscripts_$NODE-$FECHA.tar.gz"
+    echo "Backup name of ing_scripts copied to /localbck:  $LOCALDESTINY/ingscripts_$NODE-$FECHA.tar.gz"
+    echo "Backup name of ing_scripts copied to NFS: $REMOTEDESTINY/ingscripts_$NODE-$FECHA.tar.gz"
 fi
 
 chown -R univ50a:univ50a /localbck
@@ -189,5 +189,3 @@ $SUMMARY\n\n\
 $THISLOG\n\
 |______________________________________\n\
 $LOGCONTENT" > $LOGFILE
-
-

@@ -1,6 +1,19 @@
 FROM python:3.9-slim
-RUN pip install bandit
-WORKDIR /app
-COPY . .
-CMD ["bandit", "-r", ".", "-f", "html", "-o", "reports/bandit_report.html"]
 
+# Create non-privilege user
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+
+WORKDIR /app
+
+RUN pip install --no-cache-dir bandit
+
+COPY . .
+
+# Establish non-root user as default
+USER appuser
+
+# Add HEALTHCHECK for verify container status
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s \
+    CMD bandit --version || exit 1
+
+CMD ["bandit", "-r", ".", "-f", "html", "-o", "reports/bandit_report.html"]
