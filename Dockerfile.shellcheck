@@ -1,7 +1,17 @@
-FROM koalaman/shellcheck-alpine:latest
+FROM koalaman/shellcheck-alpine:stable
+
+# Create non-privilege user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR /app
 
 COPY . .
+
+# Establish non-root user as default
+USER appuser
+
+# Add HEALTHCHECK for verify container status
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s \
+    CMD shellcheck --version || exit 1
 
 CMD ["sh", "-c", "shellcheck *.sh -f json > reports/shellcheck_report.json"]
