@@ -1,5 +1,7 @@
 FROM koalaman/shellcheck-alpine:latest
-WORKDIR /app
-COPY . .
-CMD ["sh", "-c", "shellcheck *.sh -f json > reports/shellcheck_report.json"]
 
+WORKDIR /app
+
+COPY . .
+
+CMD ["sh", "-c", "shellcheck *.sh -f json > reports/shellcheck_report.json"]
