@@ -1,0 +1,23 @@
+# Basic check-code deployment with docker-compose
+
+## Example output usage
+
+- Inicialyze project:
+
+    `docker-compose up -d`
+
+- Review compose logs with:
+
+    `docker-compose logs -f --tail=5`
+
+- Local prerequisites (lynx & jq):
+
+    `apt-get install -y lynx jq`
+
+- Execute scan tool and review report:
+
+    ```
+    lynx -dump reports/bandit_report.html
+
+    jq -r '.[] | "File: \(.file)\nLine: \(.line)\nLevel: \(.level)\nCode: \(.code)\nMessage: \(.message)\n"' reports/shellcheck_report.json
+    ```
